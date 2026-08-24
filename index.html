@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SB Growth Scales · Sistemas de crecimiento y automatización</title>
+<meta name="description" content="Construimos sistemas a la medida que automatizan tus leads, tu CRM y tus reportes — para que vendas más sin trabajo manual.">
+<style>
+  :root{
+    --bg:#06070c; --bg2:#0c0f18; --card:#11151f; --line:#1e2637;
+    --txt:#eaf0ff; --muted:#8a97b5; --dim:#5a6683;
+    --cyan:#22e3ff; --mag:#ff3ea5; --gold:#ffd34e; --green:#37f5a8; --violet:#8b7dff;
+    --glow:0 0 24px rgba(34,227,255,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:radial-gradient(1100px 640px at 82% -8%, rgba(255,62,165,.10), transparent 60%),
+               radial-gradient(1000px 620px at -8% 6%, rgba(34,227,255,.10), transparent 55%), var(--bg);
+    color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+  /* NAV */
+  nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0;position:sticky;top:0;
+      background:rgba(6,7,12,.72);backdrop-filter:blur(10px);z-index:10;border-bottom:1px solid rgba(30,38,55,.6)}
+  .brand{font-weight:900;font-size:19px;letter-spacing:.3px}
+  .brand b{color:var(--cyan);text-shadow:var(--glow)}
+  .nav-links{display:flex;gap:22px;align-items:center}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:14px}
+  .nav-links a:hover{color:var(--txt)}
+  .cta{background:var(--cyan);color:#04121a !important;padding:9px 16px;border-radius:9px;font-weight:800;font-size:14px}
+  @media(max-width:640px){.nav-links a:not(.cta){display:none}}
+  /* HERO */
+  header{padding:80px 0 60px;text-align:center}
+  .pill{display:inline-block;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);
+        border:1px solid rgba(34,227,255,.3);border-radius:999px;padding:6px 14px;font-weight:700;margin-bottom:22px}
+  h1{font-size:clamp(34px,7vw,60px);font-weight:900;line-height:1.05;letter-spacing:-1px;max-width:800px;margin:0 auto}
+  h1 .n{color:var(--mag);text-shadow:0 0 24px rgba(255,62,165,.5)}
+  .sub{color:var(--muted);font-size:19px;max-width:620px;margin:22px auto 0}
+  .hero-cta{margin-top:32px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{padding:14px 24px;border-radius:11px;font-weight:800;font-size:15px;text-decoration:none;display:inline-block}
+  .btn.p{background:linear-gradient(135deg,var(--cyan),var(--violet));color:#04121a}
+  .btn.s{border:1px solid var(--line);color:var(--txt)}
+  .stats{display:flex;gap:40px;justify-content:center;margin-top:52px;flex-wrap:wrap}
+  .stat .v{font-size:30px;font-weight:900;color:var(--green)}
+  .stat .l{font-size:12px;color:var(--dim);letter-spacing:1px;text-transform:uppercase}
+  /* SECTIONS */
+  section{padding:56px 0}
+  .eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);font-weight:700;text-align:center}
+  h2{font-size:clamp(26px,4vw,36px);font-weight:800;letter-spacing:-.5px;text-align:center;margin-top:8px}
+  .lead2{color:var(--muted);text-align:center;max-width:600px;margin:12px auto 0}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}.stats{gap:26px}}
+  .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:16px;padding:24px}
+  .card .ic{width:44px;height:44px;border-radius:11px;display:grid;place-items:center;font-size:22px;margin-bottom:14px}
+  .i1{background:rgba(34,227,255,.12);border:1px solid rgba(34,227,255,.3)}
+  .i2{background:rgba(255,62,165,.12);border:1px solid rgba(255,62,165,.3)}
+  .i3{background:rgba(55,245,168,.12);border:1px solid rgba(55,245,168,.3)}
+  .i4{background:rgba(255,211,78,.12);border:1px solid rgba(255,211,78,.3)}
+  .i5{background:rgba(139,125,255,.12);border:1px solid rgba(139,125,255,.3)}
+  .card h3{font-size:18px;font-weight:800;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:14px}
+  /* STEPS */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{position:relative;padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--bg2)}
+  .step .n{font-size:44px;font-weight:900;color:var(--line);line-height:1}
+  .step h3{margin-top:8px;font-size:17px;font-weight:800}
+  .step p{color:var(--muted);font-size:14px;margin-top:6px}
+  /* CTA band */
+  .band{margin:20px auto;max-width:1000px;background:linear-gradient(135deg,rgba(34,227,255,.10),rgba(255,62,165,.10));
+        border:1px solid var(--line);border-radius:20px;padding:44px 28px;text-align:center}
+  .band h2{margin:0}
+  .foot{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--dim);font-size:13px;margin-top:40px}
+  .foot b{color:var(--cyan)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="brand">SB <b>Growth Scales</b></div>
+    <div class="nav-links">
+      <a href="#servicios">Servicios</a>
+      <a href="#como">Cómo trabajamos</a>
+      <a href="#contacto" class="cta">Agenda una llamada</a>
+    </div>
+  </nav>
+</div>
+
+<header class="wrap">
+  <span class="pill">Sistemas de crecimiento a la medida</span>
+  <h1>Tu operación de leads, <span class="n">funcionando sola.</span></h1>
+  <p class="sub">Construimos los sistemas que automatizan tus leads, tu CRM y tus reportes — para que tu equipo venda más y deje de trabajar a mano.</p>
+  <div class="hero-cta">
+    <a href="#contacto" class="btn p">Agenda una llamada →</a>
+    <a href="#servicios" class="btn s">Ver qué hacemos</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="v">24/7</div><div class="l">Operando sin parar</div></div>
+    <div class="stat"><div class="v">−50%</div><div class="l">Trabajo manual</div></div>
+    <div class="stat"><div class="v">100%</div><div class="l">A tu nombre</div></div>
+  </div>
+</header>
+
+<section id="servicios" class="wrap">
+  <div class="eyebrow">Lo que construimos</div>
+  <h2>Sistemas, no herramientas sueltas</h2>
+  <p class="lead2">Cada pieza conectada con la siguiente — para que el dato entre una vez y se mueva solo.</p>
+  <div class="grid">
+    <div class="card"><div class="ic i1">🔌</div><h3>Integraciones de CRM</h3><p>Conectamos tu GoHighLevel, Shopify o tu CRM con tus tableros para que todo se llene solo, sin doble tecleo.</p></div>
+    <div class="card"><div class="ic i2">🤖</div><h3>Asistentes de IA</h3><p>Bots que confirman citas, recuperan no-shows y responden leads en segundos — por WhatsApp, con voz.</p></div>
+    <div class="card"><div class="ic i3">📊</div><h3>Tableros a la medida</h3><p>Paneles que te muestran lo que de verdad importa: quién produce, cuánto te deja cada cliente, dónde se fuga la plata.</p></div>
+    <div class="card"><div class="ic i4">⚡</div><h3>Automatización de leads</h3><p>Cada lead enrutado al vendedor correcto en menos de 5 minutos, desde cualquier fuente — Facebook, IG, WhatsApp o web.</p></div>
+    <div class="card"><div class="ic i5">🧲</div><h3>Captación en Meta Ads</h3><p>Campañas que te llenan el embudo de leads listos para trabajar, directo a tu CRM.</p></div>
+    <div class="card"><div class="ic i1">🔒</div><h3>Todo a tu nombre</h3><p>Tus datos, tu código, tus cuentas. Sin candados de proveedor — construimos para que seas dueña, no rehén.</p></div>
+  </div>
+</section>
+
+<section id="como" class="wrap">
+  <div class="eyebrow">Cómo trabajamos</div>
+  <h2>Simple, sin riesgo, a tu ritmo</h2>
+  <div class="steps">
+    <div class="step"><div class="n">01</div><h3>Diagnóstico</h3><p>Miramos tu operación actual y encontramos dónde pierdes tiempo, datos y plata.</p></div>
+    <div class="step"><div class="n">02</div><h3>Lo construimos</h3><p>Montamos tu sistema a la medida y te lo mostramos funcionando antes de que cambies nada.</p></div>
+    <div class="step"><div class="n">03</div><h3>Escalas</h3><p>Empiezas por lo básico y subes cuando lo ves funcionar. Nunca dejas de operar.</p></div>
+  </div>
+</section>
+
+<div class="band" id="contacto">
+  <div class="eyebrow">¿Listos?</div>
+  <h2>Hagamos que tu operación trabaje por ti.</h2>
+  <p class="lead2">Cuéntanos qué tienes hoy y te mostramos qué se puede automatizar — sin compromiso.</p>
+  <div class="hero-cta"><a href="mailto:hola@sbgrowthscales.com" class="btn p">Escríbenos →</a></div>
+</div>
+
+<div class="wrap">
+  <div class="foot">SB <b>Growth Scales</b> · Sistemas de crecimiento y automatización · powered by trylux ◆</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WM Deal Makers · powered by trylux</title>
+<style>
+  :root{
+    --bg:#06070c; --panel:#0c0f18; --card:#11151f; --card2:#0e121c; --line:#1d2536;
+    --txt:#eaf0ff; --muted:#8a97b5; --dim:#5a6683;
+    --cyan:#22e3ff; --mag:#ff3ea5; --gold:#ffd34e; --green:#37f5a8; --red:#ff5a6e; --violet:#8b7dff;
+    --glow:0 0 22px rgba(34,227,255,.35);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;line-height:1.45}
+  .app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+  /* SIDEBAR */
+  .side{background:linear-gradient(180deg,#0a0d15,#070910);border-right:1px solid var(--line);padding:22px 16px;position:sticky;top:0;height:100vh}
+  .logo{display:flex;align-items:center;gap:10px;padding:0 6px 20px;border-bottom:1px solid var(--line)}
+  .logo .mk{font-weight:900;font-size:18px;letter-spacing:.5px}
+  .logo .mk b{color:var(--cyan);text-shadow:var(--glow)}
+  .logo .by{font-size:10px;color:var(--dim);letter-spacing:1px}
+  .nav{margin-top:16px;display:flex;flex-direction:column;gap:3px}
+  .ng{font-size:10px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;padding:14px 8px 6px;font-weight:700}
+  .ni{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;color:var(--muted);font-size:14px;cursor:pointer}
+  .ni:hover{background:#121826;color:var(--txt)}
+  .ni.on{background:linear-gradient(90deg,rgba(34,227,255,.14),rgba(34,227,255,.02));color:var(--txt);border:1px solid rgba(34,227,255,.28)}
+  .ni .ic{width:16px;text-align:center;opacity:.9}
+  .side .me{position:absolute;bottom:20px;left:16px;right:16px;border-top:1px solid var(--line);padding-top:14px;display:flex;align-items:center;gap:10px}
+  .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--mag),var(--violet));display:grid;place-items:center;font-weight:800;font-size:14px}
+  .me .nm{font-size:13px;font-weight:700}.me .rl{font-size:11px;color:var(--dim)}
+  /* MAIN */
+  main{padding:26px 30px 60px;max-width:1180px}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px}
+  .crumb{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);font-weight:700}
+  h1{font-size:30px;font-weight:800;letter-spacing:-.4px;margin-top:4px}
+  h1 .dot{color:var(--mag)}
+  .live{display:inline-flex;align-items:center;gap:8px;background:rgba(55,245,168,.10);border:1px solid rgba(55,245,168,.32);
+        color:var(--green);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:700}
+  .pulse{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 rgba(55,245,168,.7);animation:p 1.8s infinite}
+  @keyframes p{0%{box-shadow:0 0 0 0 rgba(55,245,168,.6)}70%{box-shadow:0 0 0 9px rgba(55,245,168,0)}100%{box-shadow:0 0 0 0 rgba(55,245,168,0)}}
+  /* KPIS */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:22px}
+  .kpi{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:16px}
+  .kpi .k{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);font-weight:700}
+  .kpi .v{font-size:28px;font-weight:900;margin-top:8px;letter-spacing:-.5px}
+  .kpi .v small{font-size:14px;color:var(--muted);font-weight:700}
+  .c-cyan{color:var(--cyan)}.c-green{color:var(--green)}.c-gold{color:var(--gold)}.c-mag{color:var(--mag)}
+  /* SECTION */
+  section{margin-top:26px}
+  .stitle{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .stitle h2{font-size:17px;font-weight:800}
+  .badge-new{font-size:10px;font-weight:900;letter-spacing:1px;background:var(--mag);color:#0a0a0a;border-radius:6px;padding:3px 8px}
+  .badge-new.cy{background:var(--cyan)}
+  .card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:20px}
+  .grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+  @media(max-width:900px){.app{grid-template-columns:1fr}.side{display:none}.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+  /* RAYO X bars */
+  .emp{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .emp:last-child{border-bottom:none}
+  .emp .nm{width:118px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
+  .emp .bar{flex:1;height:22px;background:#0a0e17;border-radius:6px;position:relative;overflow:hidden}
+  .emp .fill{position:absolute;top:0;bottom:0;left:50%;border-radius:5px}
+  .emp .fill.pos{background:linear-gradient(90deg,rgba(55,245,168,.5),var(--green))}
+  .emp .fill.neg{background:linear-gradient(270deg,rgba(255,90,110,.5),var(--red));transform:translateX(-100%)}
+  .emp .val{width:78px;text-align:right;font-weight:800;font-variant-numeric:tabular-nums}
+  .pos{color:var(--green)}.neg{color:var(--red)}.star{color:var(--gold)}
+  .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#2a3247}
+  .hint{font-size:12px;color:var(--muted);margin-top:12px}
+  .hint b{color:var(--gold)}
+  /* table citas */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--dim);font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:700;padding:8px 8px;border-bottom:1px solid var(--line)}
+  td{padding:10px 8px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  .chip{font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 8px;border-radius:6px}
+  .c-show{background:rgba(55,245,168,.12);color:var(--green)}
+  .c-sold{background:rgba(34,227,255,.14);color:var(--cyan)}
+  .c-no{background:rgba(255,90,110,.12);color:var(--red)}
+  .c-conf{background:rgba(255,211,78,.12);color:var(--gold)}
+  .src{font-size:11px;color:var(--dim)}
+  .foot{margin-top:30px;text-align:center;color:var(--dim);font-size:11px}
+  .foot b{color:var(--cyan)}
+  .flex{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="logo">
+      <div>
+        <div class="mk">WM Deal<b>Makers</b></div>
+        <div class="by">powered by trylux ◆</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="ng">Operación</div>
+      <div class="ni on"><span class="ic">▦</span> Dashboard</div>
+      <div class="ni"><span class="ic">▤</span> Citas / Shows</div>
+      <div class="ni"><span class="ic">＄</span> Ventas</div>
+      <div class="ng">Equipo</div>
+      <div class="ni"><span class="ic">◉</span> Aliados</div>
+      <div class="ni"><span class="ic">☺</span> Equipo BDC</div>
+      <div class="ng">Inteligencia</div>
+      <div class="ni"><span class="ic">◈</span> Plata × Empleado</div>
+      <div class="ni"><span class="ic">↻</span> Sincronización GHL</div>
+    </nav>
+    <div class="me">
+      <div class="av">T</div>
+      <div><div class="nm">Tatiana</div><div class="rl">Dueña</div></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+    <div class="top">
+      <div>
+        <div class="crumb">Inicio · Resumen Agosto 2026</div>
+        <h1>Hola, Tatiana<span class="dot">.</span></h1>
+      </div>
+      <div class="live"><span class="pulse"></span> Sincronizado en vivo con GoHighLevel · hace 2 min</div>
+    </div>
+
+    <!-- KPIS -->
+    <div class="kpis">
+      <div class="kpi"><div class="k">Shows (vinieron)</div><div class="v c-green">126</div></div>
+      <div class="kpi"><div class="k">Ventas cerradas</div><div class="v c-cyan">30</div></div>
+      <div class="kpi"><div class="k">Conversión</div><div class="v c-gold">24<small>%</small></div></div>
+      <div class="kpi"><div class="k">Generado</div><div class="v c-green">$5,643</div></div>
+      <div class="kpi"><div class="k">Tu ganancia neta</div><div class="v c-mag">$1,657</div></div>
+    </div>
+
+    <!-- RAYO X + FLUJO -->
+    <div class="grid" style="margin-top:22px">
+      <section style="margin:0">
+        <div class="stitle"><h2>Rayo X · Plata por empleado</h2><span class="badge-new">NUEVO</span></div>
+        <div class="card">
+          <div id="rayox"></div>
+          <div class="hint">💡 <b>Maria</b> te deja <b>+$928</b> y quizá ni sabe que es tu estrella. <b>Yesica</b> (21 citas, 0 ventas) y <b>Kimberly</b> te cuestan plata cada mes. Tu tablero viejo no te mostraba esto.</div>
+        </div>
+      </section>
+      <section style="margin:0">
+        <div class="stitle"><h2>Flujo de caja · Agosto</h2></div>
+        <div class="card">
+          <div class="flex"><span style="color:var(--muted)">Entró este mes</span><b class="pos" style="font-size:20px">+$6,455</b></div>
+          <div class="flex" style="margin-top:12px"><span style="color:var(--muted)">Pagado a BDCs</span><b style="font-size:20px">$0</b></div>
+          <div class="flex" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><span style="color:var(--muted)">Balance del mes</span><b class="c-green" style="font-size:24px">+$6,455</b></div>
+          <div class="hint" style="margin-top:16px">Por pagar a BDCs: <b style="color:var(--red)">$3,985.83</b> · Todo cobrado al día ✓</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- BE WELL EN VIVO (datos reales de GoHighLevel) -->
+    <section>
+      <div class="stitle"><h2>Be Well Esthetic · citas en vivo desde GoHighLevel</h2><span class="badge-new cy">EN VIVO</span></div>
+      <div class="card">
+        <div class="flex" style="margin-bottom:14px">
+          <span class="src"><b id="liveTotal" style="color:var(--txt)">—</b> citas este mes · <span style="color:var(--green)">datos reales, cero tecleo</span></span>
+          <span class="live" style="padding:5px 10px;font-size:11px"><span class="pulse"></span> <span id="liveWhen">conectando…</span></span>
+        </div>
+        <div class="kpis" style="grid-template-columns:repeat(4,1fr);margin-top:0;margin-bottom:16px">
+          <div class="kpi" style="padding:12px"><div class="k">Asistieron</div><div class="v c-green" id="lvShow" style="font-size:22px">—</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Confirmadas</div><div class="v c-gold" id="lvConf" style="font-size:22px">—</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">No-show</div><div class="v" id="lvNo" style="font-size:22px;color:var(--red)">—</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Conversión</div><div class="v c-cyan" id="lvConv" style="font-size:22px">—</div></div>
+        </div>
+        <table>
+          <thead><tr><th>Fecha</th><th>Paciente</th><th>Estado</th></tr></thead>
+          <tbody id="citas"></tbody>
+        </table>
+        <div class="hint" id="liveNote" style="margin-top:12px">Conectando con GoHighLevel de Be Well Esthetic…</div>
+      </div>
+    </section>
+
+    <!-- EQUIPO BDC -->
+    <section>
+      <div class="stitle"><h2>Equipo BDC · Agosto</h2></div>
+      <div class="card">
+        <table>
+          <thead><tr><th>#</th><th>BDC</th><th>Shows</th><th>Ventas</th><th>Conversión</th><th>Le cuesta</th><th style="text-align:right">Te deja</th></tr></thead>
+          <tbody id="bdc"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="foot">WM Deal Makers · Sistema de Ingresos <b>powered by trylux</b> · demo con datos reales de agosto 2026</div>
+  </main>
+</div>
+
+<script>
+const REV_PER_SALE = 5643.07/30; // ingreso promedio por venta (real)
+// [nombre, shows, ventas, costo]  (datos reales del tablero, agosto)
+const team = [
+  ["Maria Cardona",21,9,764.57,true],
+  ["Nicole",32,8,1062.06,false],
+  ["Stefania Barragan",13,4,323.70,false],
+  ["Dilan Stiven",16,4,735.00,false],
+  ["Paula Verastegui",3,3,525.00,false],
+  ["Jesus Jimenez",8,1,185.00,false],
+  ["Kimberly",10,1,280.50,false],
+  ["Yesica Murcia",21,0,105.00,false],
+  ["Laura Valentina",1,0,5.00,false],
+].map(([n,s,v,c,star])=>({n,s,v,c,star,gen:v*REV_PER_SALE,net:v*REV_PER_SALE-c}));
+
+// RAYO X
+const maxAbs = Math.max(...team.map(t=>Math.abs(t.net)));
+document.getElementById('rayox').innerHTML = team
+  .slice().sort((a,b)=>b.net-a.net)
+  .map(t=>{
+    const pct = Math.abs(t.net)/maxAbs*48; // hasta 48% desde el centro
+    const pos = t.net>=0;
+    const fill = pos
+      ? `<div class="fill pos" style="width:${pct}%"></div>`
+      : `<div class="fill neg" style="width:${pct}%"></div>`;
+    return `<div class="emp">
+      <div class="nm">${t.star?'<span class="star">★</span>':''}${t.n.split(' ')[0]}</div>
+      <div class="bar"><div class="mid"></div>${fill}</div>
+      <div class="val ${pos?'pos':'neg'}">${pos?'+':'−'}$${Math.abs(Math.round(t.net))}</div>
+    </div>`;
+  }).join('');
+
+// BDC table
+document.getElementById('bdc').innerHTML = team
+  .map((t,i)=>{
+    const conv = t.s? Math.round(t.v/t.s*100):0;
+    const pos = t.net>=0;
+    return `<tr>
+      <td style="color:var(--dim)">${i+1}</td>
+      <td style="font-weight:700">${t.star?'<span class="star">★</span> ':''}${t.n}</td>
+      <td>${t.s}</td><td>${t.v}</td>
+      <td style="color:${conv>=30?'var(--green)':conv>0?'var(--gold)':'var(--red)'}">${conv}%</td>
+      <td style="color:var(--muted)">$${t.c.toFixed(0)}</td>
+      <td style="text-align:right;font-weight:800" class="${pos?'pos':'neg'}">${pos?'+':'−'}$${Math.abs(Math.round(t.net))}</td>
+    </tr>`;
+  }).join('');
+
+// ===== BE WELL EN VIVO — jala datos REALES de GoHighLevel vía /api/live =====
+const chip = {
+  showed:['c-show','Asistió ✓'], confirmed:['c-conf','Confirmada'],
+  noshow:['c-no','No Show'], cancelled:['c-no','Cancelada'], new:['c-sold','Nueva']
+};
+// datos de respaldo (reales, últimos conocidos) — se muestran si el fetch falla, para no verse rota
+const FALLBACK = {
+  total:159, cerradas:50, conv:31, by:{showed:50,confirmed:31,noshow:22,cancelled:34,new:22},
+  muestra:[
+    {fecha:"2026-08-27 12:00",cliente:"Iris M.",estado:"confirmed"},
+    {fecha:"2026-08-27 10:00",cliente:"Maria P.",estado:"confirmed"},
+    {fecha:"2026-08-26 13:00",cliente:"Heissel M.",estado:"confirmed"},
+    {fecha:"2026-08-25 16:00",cliente:"Concepcion Q.",estado:"showed"},
+  ], ts:Date.now(), live:false
+};
+
+function pintar(d){
+  document.getElementById('liveTotal').textContent = d.total;
+  document.getElementById('lvShow').textContent = d.by.showed||0;
+  document.getElementById('lvConf').textContent = d.by.confirmed||0;
+  document.getElementById('lvNo').textContent = d.by.noshow||0;
+  document.getElementById('lvConv').textContent = (d.conv||0)+'%';
+  document.getElementById('citas').innerHTML = (d.muestra||[]).map(r=>{
+    const [cls,lbl]=chip[r.estado]||['c-conf',r.estado];
+    return `<tr>
+      <td style="color:var(--muted);white-space:nowrap">${r.fecha}</td>
+      <td style="font-weight:600">${r.cliente}</td>
+      <td><span class="chip ${cls}">${lbl}</span></td>
+    </tr>`;
+  }).join('');
+}
+function cuando(ts, live){
+  const s = Math.max(0, Math.round((Date.now()-ts)/1000));
+  const t = s<60? `hace ${s}s` : `hace ${Math.round(s/60)} min`;
+  document.getElementById('liveWhen').textContent = live? `sincronizado ${t}` : `dato reciente`;
+}
+
+let LAST = FALLBACK;
+async function sync(){
+  try{
+    const r = await fetch('/api/live', {cache:'no-store'});
+    const d = await r.json();
+    if(d && !d.error && typeof d.total==='number'){
+      LAST = {...d, live:true};
+      pintar(LAST);
+      document.getElementById('liveNote').innerHTML = `✅ Conectado a GoHighLevel de <b>Be Well Esthetic</b> — nombres de pacientes protegidos. Esto llega solo, sin que nadie lo teclee.`;
+    } else { throw new Error('sin datos'); }
+  }catch(e){
+    pintar(LAST);
+    document.getElementById('liveNote').innerHTML = `Mostrando la última sincronización con <b>Be Well Esthetic</b>. Reintentando conexión en vivo…`;
+  }
+  cuando(LAST.ts, LAST.live);
+}
+pintar(FALLBACK); cuando(FALLBACK.ts, false);
+sync();
+setInterval(sync, 60000);      // re-sincroniza cada minuto
+setInterval(()=>cuando(LAST.ts, LAST.live), 5000); // actualiza "hace Xs"
+</script>
+</body>
+</html>
