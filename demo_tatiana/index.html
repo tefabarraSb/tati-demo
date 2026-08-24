@@ -115,6 +115,43 @@
   .band{background:linear-gradient(135deg,rgba(34,227,255,.10),rgba(255,62,165,.10));border:1px solid var(--line);border-radius:18px;padding:26px;text-align:center;margin-top:16px}
   .band .q{font-size:clamp(17px,2.4vw,22px);font-weight:800;max-width:720px;margin:0 auto;line-height:1.4}
   .band .q .n{color:var(--cyan)}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:820px){.g2{grid-template-columns:1fr}}
+  .ctitle{font-size:14px;font-weight:800;margin-bottom:2px}
+  .csub{color:var(--dim);font-size:12px;margin-bottom:14px}
+  /* barras horizontales */
+  .hb{display:flex;align-items:center;gap:10px;margin:9px 0}
+  .hb .lb{width:120px;font-size:13px;color:var(--muted);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .hb .tr{flex:1;height:16px;background:#0a0e17;border-radius:5px;overflow:hidden}
+  .hb .fi{height:100%;border-radius:5px;background:linear-gradient(90deg,rgba(34,227,255,.5),var(--cyan))}
+  .hb .vl{width:42px;font-size:13px;font-weight:800;text-align:right}
+  /* funnel */
+  .fn{display:flex;align-items:center;gap:12px;margin:8px 0}
+  .fn .lb{width:100px;font-size:13px;color:var(--muted)}
+  .fn .track{flex:1}
+  .fn .bar{height:30px;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-weight:800;font-size:13px;color:#04121a;min-width:34px}
+  /* barras verticales (evolución) */
+  .vbars{display:flex;align-items:flex-end;gap:3px;height:130px;margin-top:8px}
+  .vbars .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;height:100%}
+  .vbars .s{background:rgba(34,227,255,.35);border-radius:2px 2px 0 0}
+  .vbars .v{background:var(--green);border-radius:2px 2px 0 0}
+  .vlbl{display:flex;gap:3px;margin-top:6px}
+  .vlbl .col{flex:1;text-align:center;font-size:9px;color:var(--dim)}
+  /* heatmap */
+  .hm{width:100%;border-collapse:collapse}
+  .hm td,.hm th{padding:0;text-align:center;font-size:10px;color:var(--dim)}
+  .hm .cell{width:26px;height:22px;border-radius:4px;background:#0a0e17;color:var(--txt);font-weight:700}
+  .lgd{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--dim);margin-top:10px}
+  .lgd .sw{width:16px;height:12px;border-radius:3px}
+  /* donut legend */
+  .dlg{display:flex;flex-direction:column;gap:8px;justify-content:center}
+  .dlg .it{display:flex;align-items:center;gap:8px;font-size:13px}
+  .dlg .dot{width:11px;height:11px;border-radius:3px}
+  /* filtros dashboard */
+  .filt{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:6px}
+  .filt .fl{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-right:2px}
+  .filt select{background:#0c1017;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit}
+  .filt .apply{background:var(--cyan);color:#04121a;border:none;border-radius:8px;padding:8px 14px;font-weight:800;font-size:13px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -137,6 +174,7 @@
       <div class="ni" data-target="equipo" data-crumb="Equipo · Equipo BDC · Agosto"><span class="ic">☺</span> Equipo BDC</div>
       <div class="ng">Inteligencia</div>
       <div class="ni" data-target="plata" data-crumb="Inteligencia · Plata por empleado"><span class="ic">◈</span> Plata × Empleado</div>
+      <div class="ni" data-target="analitica" data-crumb="Inteligencia · Analítica en vivo"><span class="ic">◧</span> Analítica</div>
       <div class="ni" data-target="sync" data-crumb="Inteligencia · Sincronización GoHighLevel"><span class="ic">↻</span> Sincronización GHL</div>
       <div class="ng">Comercial</div>
       <div class="ni ni-cta" data-target="propuesta" data-crumb="Propuesta · preparada para ti"><span class="ic">◆</span> Propuesta</div>
@@ -157,11 +195,25 @@
       <div class="live"><span class="pulse"></span> Sincronizado en vivo con GoHighLevel · hace 2 min</div>
     </div>
 
+    <!-- FILTROS -->
+    <div class="filt vw" data-view="dashboard analitica">
+      <span class="fl">Año</span>
+      <select><option>2026</option><option>2025</option></select>
+      <span class="fl">Mes</span>
+      <select><option>Agosto</option><option>Julio</option><option>Junio</option></select>
+      <span class="fl">Aliado</span>
+      <select><option>Todos los aliados</option><option>Ambar Motors</option><option>Be Well Esthetic</option><option>Danycar</option><option>Key Deer Motors</option></select>
+      <span class="fl">BDC</span>
+      <select><option>Todos los BDCs</option><option>Maria Cardona</option><option>Nicole</option><option>Stefania Barragan</option></select>
+      <button class="apply">Aplicar</button>
+    </div>
+
     <!-- KPIS -->
-    <div class="kpis vw" data-view="dashboard ventas">
+    <div class="kpis vw" data-view="dashboard ventas" style="grid-template-columns:repeat(6,1fr)">
       <div class="kpi"><div class="k">Shows (vinieron)</div><div class="v c-green">126</div></div>
       <div class="kpi"><div class="k">Ventas cerradas</div><div class="v c-cyan">30</div></div>
       <div class="kpi"><div class="k">Conversión</div><div class="v c-gold">24<small>%</small></div></div>
+      <div class="kpi"><div class="k">Aplicaciones</div><div class="v" style="color:var(--violet)">0</div></div>
       <div class="kpi"><div class="k">Generado</div><div class="v c-green">$5,643</div></div>
       <div class="kpi"><div class="k">Tu ganancia neta</div><div class="v c-mag">$1,657</div></div>
     </div>
@@ -231,6 +283,42 @@
     <section class="vw" data-view="aliados" style="display:none">
       <div class="stitle"><h2>Aliados · Agosto</h2><span class="badge-new cy">9 activos</span></div>
       <div class="grid" id="aliados" style="grid-template-columns:repeat(3,1fr)"></div>
+    </section>
+
+    <!-- ANALÍTICA EN VIVO -->
+    <section class="vw" data-view="analitica" style="display:none">
+      <div class="stitle"><h2>Analítica · Be Well Esthetic en vivo</h2><span class="badge-new cy">EN VIVO</span></div>
+      <div class="g2">
+        <div class="card">
+          <div class="ctitle">Funnel de estados</div>
+          <div class="csub">De agendada a asistida — este mes</div>
+          <div id="an_funnel"></div>
+        </div>
+        <div class="card">
+          <div class="ctitle">Distribución por tipo de cita</div>
+          <div class="csub">Qué buscan tus pacientes</div>
+          <div style="display:flex;gap:20px;align-items:center"><div id="an_donut"></div><div class="dlg" id="an_donut_lg"></div></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="ctitle">Evolución diaria de citas</div>
+        <div class="csub">Volumen por día del mes (real, desde GoHighLevel)</div>
+        <div class="vbars" id="an_daily"></div>
+        <div class="vlbl" id="an_daily_lbl"></div>
+      </div>
+      <div class="g2" style="margin-top:14px">
+        <div class="card">
+          <div class="ctitle">Top BDCs por ventas</div>
+          <div class="csub">Quién cierra más</div>
+          <div id="an_topbdc"></div>
+        </div>
+        <div class="card">
+          <div class="ctitle">Concentración de citas · día × hora</div>
+          <div class="csub">Cuándo agendar para no perder cupo</div>
+          <div style="overflow-x:auto"><div id="an_heat"></div></div>
+          <div class="lgd"><span>menos</span><span class="sw" style="background:#0a0e17"></span><span class="sw" style="background:rgba(34,227,255,.25)"></span><span class="sw" style="background:rgba(34,227,255,.55)"></span><span class="sw" style="background:var(--cyan)"></span><span>más</span></div>
+        </div>
+      </div>
     </section>
 
     <!-- PROPUESTA (para Tatiana) -->
@@ -444,7 +532,43 @@ function cuando(ts, live){
   const t = s<60? `hace ${s}s` : `hace ${Math.round(s/60)} min`;
   document.getElementById('liveWhen').textContent = live? `sincronizado ${t}` : `dato reciente`;
 }
-function pintarTodo(d){ pintarKPIs(d); pintarFiltros(d); render(); }
+// ===== ANALÍTICA EN VIVO (gráficas desde los datos reales de GHL) =====
+function renderAnalitica(d){
+  const citas = d.citas||[]; const by = d.by||{};
+  // FUNNEL
+  const total = d.total||citas.length;
+  const conf = (by.confirmed||0)+(by.showed||0);
+  const stages = [['Agendadas',total,'var(--cyan)'],['Confirmadas',conf,'var(--gold)'],['Asistieron',by.showed||0,'var(--green)']];
+  const mx = Math.max(1,...stages.map(s=>s[1]));
+  const fn = document.getElementById('an_funnel'); if(fn) fn.innerHTML = stages.map(([l,v,c])=>
+    `<div class="fn"><div class="lb">${l}</div><div class="track"><div class="bar" style="width:${Math.max(8,v/mx*100)}%;background:${c}">${v}</div></div></div>`).join('');
+  // DONUT por tipo
+  const tipos={}; citas.forEach(r=>{const t=r.tipo||'Otro'; tipos[t]=(tipos[t]||0)+1;});
+  const pal=['var(--cyan)','var(--mag)','var(--gold)','var(--green)','var(--violet)'];
+  const ents=Object.entries(tipos).sort((a,b)=>b[1]-a[1]); const tt=ents.reduce((s,e)=>s+e[1],0)||1;
+  let acc=0; const segs=ents.map(([k,v],i)=>{const a0=acc/tt*360; acc+=v; const a1=acc/tt*360; return `${pal[i%pal.length]} ${a0}deg ${a1}deg`;});
+  const dn=document.getElementById('an_donut'); if(dn) dn.innerHTML=`<div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(${segs.join(',')});display:grid;place-items:center"><div style="width:74px;height:74px;border-radius:50%;background:var(--card2);display:grid;place-items:center;font-weight:900;font-size:20px">${tt}</div></div>`;
+  const lg=document.getElementById('an_donut_lg'); if(lg) lg.innerHTML=ents.map(([k,v],i)=>`<div class="it"><span class="dot" style="background:${pal[i%pal.length]}"></span>${k} <b style="margin-left:auto;color:var(--muted)">${v}</b></div>`).join('');
+  // EVOLUCIÓN diaria
+  const perDay={}; citas.forEach(r=>{ if(r.fecha) perDay[r.fecha]=(perDay[r.fecha]||0)+1; });
+  const days=Object.keys(perDay).sort().slice(-24); const mxd=Math.max(1,...days.map(k=>perDay[k]));
+  const db=document.getElementById('an_daily'); if(db) db.innerHTML=days.map(k=>`<div class="col"><div class="s" style="height:${perDay[k]/mxd*100}%"></div></div>`).join('');
+  const dl=document.getElementById('an_daily_lbl'); if(dl) dl.innerHTML=days.map((k,i)=>`<div class="col">${(i%4===0)?(+k.slice(8,10)):''}</div>`).join('');
+  // TOP BDCs por ventas
+  const tb=[...team].sort((a,b)=>b.v-a.v).slice(0,6); const mxv=Math.max(1,...tb.map(t=>t.v));
+  const tbc=document.getElementById('an_topbdc'); if(tbc) tbc.innerHTML=tb.map(t=>
+    `<div class="hb"><div class="lb">${t.n.split(' ')[0]}</div><div class="tr"><div class="fi" style="width:${t.v/mxv*100}%"></div></div><div class="vl">${t.v}</div></div>`).join('');
+  // HEATMAP día x hora
+  const D=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb']; const H=[8,9,10,11,12,13,14,15,16,17,18];
+  const grid={}; let mxc=1;
+  citas.forEach(r=>{ if(!r.fecha||!r.hora) return; const wd=new Date(r.fecha+'T12:00:00').getDay(); const h=+r.hora.slice(0,2);
+    if(h<H[0]||h>H[H.length-1])return; const key=wd+'_'+h; grid[key]=(grid[key]||0)+1; if(grid[key]>mxc)mxc=grid[key]; });
+  const col=n=>{ if(!n) return '#0a0e17'; const t=n/mxc; return t>.66?'var(--cyan)':t>.33?'rgba(34,227,255,.55)':'rgba(34,227,255,.25)'; };
+  let ht='<table class="hm"><tr><th></th>'+D.map(d=>`<th>${d}</th>`).join('')+'</tr>';
+  H.forEach(h=>{ ht+=`<tr><th style="padding-right:6px;text-align:right">${h}h</th>`+D.map((_,wd)=>{const n=grid[wd+'_'+h]||0; return `<td><div class="cell" style="background:${col(n)}">${n||''}</div></td>`;}).join('')+'</tr>'; });
+  ht+='</table>'; const hm=document.getElementById('an_heat'); if(hm) hm.innerHTML=ht;
+}
+function pintarTodo(d){ pintarKPIs(d); pintarFiltros(d); render(); renderAnalitica(d); }
 
 async function sync(){
   try{
