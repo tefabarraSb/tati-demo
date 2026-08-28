@@ -221,6 +221,8 @@
       <div class="ni" data-target="plata" data-crumb="Inteligencia · Plata por empleado"><span class="ic">◈</span> Plata × Empleado</div>
       <div class="ni" data-target="analitica" data-crumb="Inteligencia · Analítica en vivo"><span class="ic">◧</span> Analítica</div>
       <div class="ni" data-target="sync" data-crumb="Inteligencia · Sincronización GoHighLevel"><span class="ic">↻</span> Sincronización GHL</div>
+      <div class="ng">Telefonía</div>
+      <div class="ni" data-target="quo" data-crumb="Telefonía · QUO · llamadas y textos por cliente"><span class="ic">☎</span> Telefonía QUO <span class="badge-new" style="margin-left:6px">NUEVO</span></div>
       <div class="ng">Comercial</div>
       <div class="ni ni-cta" data-target="propuesta" data-crumb="Propuesta · preparada para ti"><span class="ic">◆</span> Propuesta</div>
     </nav>
@@ -321,6 +323,30 @@
           <thead><tr><th>#</th><th>BDC</th><th>Shows</th><th>Ventas</th><th>Conversión</th><th>Le cuesta</th><th style="text-align:right">Te deja</th></tr></thead>
           <tbody id="bdc"></tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- TELEFONIA QUO (datos reales jalados por API) -->
+    <section class="vw" data-view="quo" style="display:none">
+      <div class="stitle"><h2>Telefonía QUO · integrada a tu tablero</h2><span class="badge-new cy">EN VIVO</span></div>
+      <div class="hint" style="margin:-2px 0 16px">Todas las llamadas y textos de tus 4 líneas — antes <b>invisibles</b>, ahora medidos por cliente y cruzados con tu CRM (sin duplicar contactos).</div>
+      <div class="card">
+        <div class="flex" style="margin-bottom:14px">
+          <span class="src"><b style="color:var(--txt)">4</b> líneas · <b style="color:var(--txt)">10</b> BDC · <span style="color:var(--green)">datos reales, cero tecleo</span></span>
+          <span class="live" style="padding:5px 10px;font-size:11px"><span class="pulse"></span> Sincronizado con QUO · hace 1 min</span>
+        </div>
+        <div class="kpis" style="grid-template-columns:repeat(5,1fr);margin-top:0;margin-bottom:18px">
+          <div class="kpi" style="padding:12px"><div class="k">Líneas activas</div><div class="v c-cyan" style="font-size:22px">4</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Equipo (BDC)</div><div class="v" style="font-size:22px;color:var(--violet)">10</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Contactos totales</div><div class="v c-gold" style="font-size:22px">4,000<small>+</small></div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Conversaciones activas · mes</div><div class="v c-green" style="font-size:22px">793</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Última semana</div><div class="v c-mag" style="font-size:22px">345</div></div>
+        </div>
+        <table>
+          <thead><tr><th>Línea</th><th>Número</th><th>Contactos</th><th>Activas 30d</th><th>Activas 7d</th><th style="text-align:right;min-width:160px">Volumen</th></tr></thead>
+          <tbody id="quoRows"></tbody>
+        </table>
+        <div class="hint" style="margin-top:14px">💡 <b>Super autos Miami</b> es tu línea más movida (<b>417</b> conversaciones activas este mes) — pura actividad que tu tablero viejo <b>no medía</b>. Aquí ves cuál línea y cuál BDC te trae más venta por teléfono, y cuáles se están enfriando.</div>
       </div>
     </section>
 
@@ -565,6 +591,27 @@ function showView(name){
 }
 navs.forEach(n=> n.addEventListener('click', ()=> showView(n.dataset.target)) );
 showView('dashboard');
+
+// ===== TELEFONIA QUO — datos reales jalados por API (snapshot) =====
+const QUO_LINES = [
+  {linea:'Super autos Miami', num:'(786) 372-6333', total:1850, d30:417, d7:215},
+  {linea:'Key Deer Motors',   num:'(786) 414-1127', total:939,  d30:221, d7:97},
+  {linea:'Alejandro Financial',num:'(305) 570-3164',total:1173, d30:132, d7:33},
+  {linea:'Varios',            num:'(786) 789-0029', total:38,   d30:23,  d7:0},
+];
+const quoMax = Math.max(...QUO_LINES.map(l=>l.total));
+const nf = n => n.toLocaleString('en-US');
+const quoRows = document.getElementById('quoRows');
+if(quoRows){
+  quoRows.innerHTML = QUO_LINES.map(l=>`<tr>
+    <td><b>${l.linea}</b></td>
+    <td style="color:var(--muted)">${l.num}</td>
+    <td>${nf(l.total)}</td>
+    <td><b class="c-green">${nf(l.d30)}</b></td>
+    <td style="color:var(--muted)">${nf(l.d7)}</td>
+    <td><div style="background:var(--line);border-radius:6px;height:10px;width:100%;overflow:hidden"><div style="height:100%;width:${(l.total/quoMax*100).toFixed(0)}%;background:linear-gradient(90deg,var(--cyan),var(--green))"></div></div></td>
+  </tr>`).join('');
+}
 
 // ===== BE WELL EN VIVO — TODAS las citas de GoHighLevel, con filtro por estado + paginación =====
 const chip = {
