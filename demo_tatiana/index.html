@@ -348,6 +348,22 @@
         </table>
         <div class="hint" style="margin-top:14px">💡 <b>Super autos Miami</b> es tu línea más movida (<b>417</b> conversaciones activas este mes) — pura actividad que tu tablero viejo <b>no medía</b>. Aquí ves cuál línea y cuál BDC te trae más venta por teléfono, y cuáles se están enfriando.</div>
       </div>
+
+      <div class="stitle" style="margin-top:28px"><h2>Seguimiento · última semana</h2><span class="badge-new">EN RIESGO</span></div>
+      <div class="hint" style="margin:-2px 0 16px">Cada conversación de la semana, clasificada: <b class="c-green">respondida</b>, <b class="c-gold">esperando respuesta</b> (enfriándose) o <b style="color:var(--red)">llamada perdida</b>. Las que nadie atendió son <b>ventas en riesgo</b>.</div>
+      <div class="card">
+        <div class="kpis" style="grid-template-columns:repeat(4,1fr);margin-top:0;margin-bottom:18px">
+          <div class="kpi" style="padding:12px"><div class="k">Conversaciones · 7d</div><div class="v c-cyan" style="font-size:22px">297</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Respondidas ✓</div><div class="v c-green" style="font-size:22px">179</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Esperando respuesta</div><div class="v c-gold" style="font-size:22px">11</div></div>
+          <div class="kpi" style="padding:12px"><div class="k">Llamadas perdidas</div><div class="v" style="font-size:22px;color:var(--red)">7</div></div>
+        </div>
+        <table>
+          <thead><tr><th>Contacto</th><th>Línea</th><th>Canal</th><th>Estado</th><th style="text-align:right">Cuándo</th></tr></thead>
+          <tbody id="quoRisk"></tbody>
+        </table>
+        <div class="hint" style="margin-top:14px">🔴 <b>18 clientes</b> te buscaron esta semana y <b>nadie les respondió</b> — cada uno es una posible venta perdida. Con el sistema conectado, estas saltan como <b>alerta al instante</b> para que tu equipo las rescate. <span style="color:var(--dim)">Las que terminan en venta se marcan solas al cruzar con tu CRM.</span></div>
+      </div>
     </section>
 
     <!-- ALIADOS -->
@@ -611,6 +627,43 @@ if(quoRows){
     <td style="color:var(--muted)">${nf(l.d7)}</td>
     <td><div style="background:var(--line);border-radius:6px;height:10px;width:100%;overflow:hidden"><div style="height:100%;width:${(l.total/quoMax*100).toFixed(0)}%;background:linear-gradient(90deg,var(--cyan),var(--green))"></div></div></td>
   </tr>`).join('');
+}
+// Seguimiento última semana — conversaciones en riesgo (datos reales de QUO)
+const QUO_RISK = [
+  {num:'+1631•••32',linea:'Super autos Miami',estado:'perdida',when:'2026-08-28T18:11'},
+  {num:'+1786•••44',linea:'Varios',estado:'perdida',when:'2026-08-28T18:11'},
+  {num:'+1561•••99',linea:'Super autos Miami',estado:'frio',when:'2026-08-27T22:27'},
+  {num:'+1561•••15',linea:'Key Deer Motors',estado:'perdida',when:'2026-08-27T22:15'},
+  {num:'+1940•••13',linea:'Super autos Miami',estado:'frio',when:'2026-08-27T04:17'},
+  {num:'+1305•••88',linea:'Super autos Miami',estado:'perdida',when:'2026-08-25T20:55'},
+  {num:'+1716•••10',linea:'Super autos Miami',estado:'perdida',when:'2026-08-25T22:01'},
+  {num:'+1813•••47',linea:'Alejandro Financial',estado:'perdida',when:'2026-08-25T23:01'},
+  {num:'+1561•••05',linea:'Alejandro Financial',estado:'perdida',when:'2026-08-25T17:09'},
+  {num:'+1305•••28',linea:'Super autos Miami',estado:'frio',when:'2026-08-25T16:10'},
+  {num:'+1954•••05',linea:'Super autos Miami',estado:'frio',when:'2026-08-24T22:05'},
+  {num:'+1954•••05',linea:'Key Deer Motors',estado:'frio',when:'2026-08-24T22:03'},
+  {num:'+1954•••27',linea:'Super autos Miami',estado:'frio',when:'2026-08-24T19:29'},
+  {num:'+1386•••10',linea:'Super autos Miami',estado:'frio',when:'2026-08-24T19:32'},
+  {num:'+1786•••83',linea:'Key Deer Motors',estado:'frio',when:'2026-08-24T17:02'},
+  {num:'+1407•••45',linea:'Super autos Miami',estado:'frio',when:'2026-08-22T18:09'},
+];
+const quoRisk = document.getElementById('quoRisk');
+if(quoRisk){
+  const fmt = iso => { try { return new Date(iso+'Z').toLocaleString('es',{timeZone:'America/New_York',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',hour12:true}); } catch(e){ return iso; } };
+  quoRisk.innerHTML = QUO_RISK.map(r=>{
+    const perd = r.estado==='perdida';
+    const badge = perd
+      ? '<span style="background:rgba(255,90,110,.15);color:var(--red);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700">Llamada perdida</span>'
+      : '<span style="background:rgba(255,211,78,.15);color:var(--gold);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700">Esperando respuesta</span>';
+    const canal = perd ? '📞 Llamada' : '💬 Texto';
+    return `<tr>
+      <td style="font-variant-numeric:tabular-nums">${r.num}</td>
+      <td style="color:var(--muted)">${r.linea}</td>
+      <td>${canal}</td>
+      <td>${badge}</td>
+      <td style="text-align:right;color:var(--muted)">${fmt(r.when)}</td>
+    </tr>`;
+  }).join('');
 }
 
 // ===== BE WELL EN VIVO — TODAS las citas de GoHighLevel, con filtro por estado + paginación =====
